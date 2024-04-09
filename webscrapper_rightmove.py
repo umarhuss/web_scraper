@@ -1,8 +1,8 @@
-# request libaraies needed 
+# Request libraies needed. 
 import requests
 from bs4 import BeautifulSoup
 
-#headers to mimic a browser request
+# Headers to mimic a browser request.
 headers = {
     'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3'
 }
@@ -13,15 +13,15 @@ response = requests.get(property_url, headers=headers)
 print(response.status_code)
 page_content = response.text
 
-# use beautifulsoup to parse our information 
+# Use beautifulsoup to parse our information. 
+document = BeautifulSoup(page_content,'html.parser')
 
-
-# create csv file 
+# Create csv file. 
 
 
 
 '''choose website:
-i have chosen rightmove to scrape 
+i have chosen rightmove to scrap
 
 we will get a list of properties. for each property we will  grab:
 - The property page url 
