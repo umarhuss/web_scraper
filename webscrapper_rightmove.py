@@ -16,18 +16,30 @@ page_content = response.text
 # Use beautifulsoup to parse our information. 
 document = BeautifulSoup(page_content,'html.parser')
 
+# Get the address for all propertys on page 
 address_tag =[]
 location_divs = document.find_all('address', class_='propertyCard-address')
 for element in location_divs:
     address_tag.append(element.find_all('span'))
-print(len(location_divs))
-print(address_tag)
+
+if address_tag:
+    for address in address_tag:
+        for span_element in address:
+            property_location = span_element.text.strip()
+            print(f'Location: {property_location}')
+    else:
+        print("Location not found")
 
 
+# Get all prices for each property on page 
+price_divs = document.find_all('span',{'class':'propertyCard-priceValue'})
 
-#price_divs = document.find_all('span',{'class':'propertyCard-priceValue'})
-#print(mydivs[:5])
-
+if price_divs:
+    for price_div in price_divs:
+        price = price_div.text.strip()
+        print("Price:", price)
+else:
+    print("Price not found.")
 
 
 # Create csv file. 
