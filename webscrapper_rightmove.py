@@ -17,31 +17,38 @@ page_content = response.text
 document = BeautifulSoup(page_content,'html.parser')
 
 # Get the address for all propertys on page 
-address_tag =[]
+all_addresses = []
 location_divs = document.find_all('address', class_='propertyCard-address')
+
 for element in location_divs:
-    address_tag.append(element.find_all('span'))
+    spans = element.find_all('span')
+    for span_element in spans:
+        all_addresses.append(span_element.text.strip())
 
-if address_tag:
-    for address in address_tag:
-        for span_element in address:
-            property_location = span_element.text.strip()
-            print(f'Location: {property_location}')
-    else:
-        print("Location not found")
-
-
-# Get all prices for each property on page 
-price_divs = document.find_all('span',{'class':'propertyCard-priceValue'})
-
-if price_divs:
-    for price_div in price_divs:
-        price = price_div.text.strip()
-        print("Price:", price)
-else:
-    print("Price not found.")
+# # Get all prices for each property on page 
+all_prices = []
+for price in document.find_all('span',class_='propertyCard-priceValue'):
+    all_prices.append(price.text.strip())
 
 
+#Get number of beds/description
+all_descriptions = []
+for description in document.find_all("h2", class_="propertyCard-title"):
+    all_descriptions.append(description.text.strip())
+
+# Get links for each property
+all_links = []
+property_info = document.find_all('a', class_='propertyCard-link')
+
+for link in property_info:
+    href = link.get("href")
+    if href:
+        full_link = "https://www.rightmove.co.uk" + href
+        all_links.append(full_link)
+
+
+
+    
 # Create csv file. 
 
 
@@ -58,7 +65,5 @@ for each property we will grab:
 - The type 
 - number of bedrooms 
 - number of bathrooms 
-- price 
-- furnished or unfurnished 
-- size  
+- price  
 '''
